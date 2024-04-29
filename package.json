@@ -7,8 +7,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js --mode development",
     "prod": "nodemon src/app.js --mode production",
-    "test": "nodemon src/app.js --mode testing",
-    "build": "rollup -c rollup.config.js"
+    "test": "nodemon src/app.js --mode testing"
   },
   "author": "",
   "license": "ISC",
