@@ -52,7 +52,7 @@ import initializePassport from '../src/config/passport.config.js';
 // Configuración de Express
 
 const app = express();
-const port = config.port;
+const port = config.port || 8080;
 //URL de la base de datos de mongo
 const MONGOURL = config.mongoUrl;
 //Logger
