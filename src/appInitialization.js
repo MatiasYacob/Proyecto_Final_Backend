@@ -15,7 +15,7 @@ export function initializeApp(app, __dirname) {
   app.use('/api/cart', cartRouter);
   app.use('/', viewsRouter);
   
-  app.use('/public', (req, res, next) => {
+  app.use('/api/public', (req, res, next) => {
     if (req.url.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
     }

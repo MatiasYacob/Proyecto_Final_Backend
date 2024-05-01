@@ -1,5 +1,5 @@
 import userModel from "./models/user.model.js";
-import {createHash} from "../../../dirname.js";
+import {createHash} from "../../../utils.js";
  class UserService {
     constructor(){
         console.log("Calling users model using a service.");

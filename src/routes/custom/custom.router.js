@@ -1,6 +1,6 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { PRIVATE_KEY } from "../../dirname.js";
+import { PRIVATE_KEY } from "../../utils.js";
 
 export default class CustomRouter {
     constructor() {

@@ -9,9 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 
-    <!-- Include Socket.io -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/socket.io@4"></script>
+  
 
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -37,13 +35,11 @@
                         <a class="page-link" href="{{responseObject.nextLink}}">Siguiente</a>
                     </li>
                 {{/if}}
-                <p class="btn btn-primary ml-3">
-                    Cantidad De Productos: {{responseObject.totalDocs}}
-                </p>
+               
                 <p> <a href="/realtimeproducts" class="btn btn-primary ml-3">Ir a Carga de productos</a></p>
                 <p> <a href="/chat" class="btn btn-primary ml-3">Ir al Chat</a></p>
                 <p> <a href="/cart" class="btn btn-primary ml-3">Ir al carrito</a></p>
-                <p> <a href="/users" class="btn btn-primary ml-3">Perfil</a></p>
+                <p> <a href="/api/users" class="btn btn-primary ml-3">Perfil</a></p>
             </ul>
         </nav>
     </div>
@@ -54,7 +50,7 @@
                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
-                    <th scope="col">ID Mongo</th>
+                    
                     <th scope="col">Price</th>
                     <th scope="col">Code</th>
                     <th scope="col">Stock</th>
@@ -66,7 +62,7 @@
                     <tr>
                         <td>{{title}}</td>
                         <td>{{description}}</td>
-                        <td>{{_id}}</td>
+                       
                         <td><strong>$ {{price}}</strong></td>
                         <td>{{code}}</td>
                         <td>{{stock}}</td>

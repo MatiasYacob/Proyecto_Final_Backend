@@ -18,7 +18,7 @@ form.addEventListener('submit',e=>{
     }).then(result =>{
         console.log(result.status)
         if(result.status === 201){
-            window.location.replace('/users/login')
+            window.location.replace('/api/users/login')
         }
     })
 })

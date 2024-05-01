@@ -1,7 +1,7 @@
 import { Router } from "express";
 import SessionsController from "../controllers/SessionsController.js";
 import jwt from 'jsonwebtoken';
-import { passportCall, authorization } from "../dirname.js";
+import { passportCall, authorization } from "../utils.js";
 
 
 const router = Router();

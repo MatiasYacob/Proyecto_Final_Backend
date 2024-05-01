@@ -2,7 +2,7 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../services/dao/mongo/models/user.model.js';
 import { sendEmail } from '../controllers/EmailController.js';
-import { PRIVATE_KEY } from '../dirname.js';
+import { PRIVATE_KEY } from '../utils.js';
 import bcrypt from 'bcrypt';
 
 const router = express.Router();

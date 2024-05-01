@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as  productController from "../controllers/ProductController.js";
-import { passportCall, authorization } from "../dirname.js";
+import { passportCall, authorization } from "../utils.js";
 import { addLogger } from "../config/logger_CUSTOM.js";
 
 const router = Router();

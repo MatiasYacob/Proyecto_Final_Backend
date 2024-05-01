@@ -49,7 +49,7 @@ describe("Testing", () => {
 
         it("Intercambia el rol del Usuario a Premium y Actualiza la cookie ", async () => {
             // Realizar la solicitud para cambiar el rol del usuario a "premium"
-            const responseChangeRole = await requester.put(`/users/${userID}`);
+            const responseChangeRole = await requester.put(`/api/users/${userID}`);
 
             // Verificar que la solicitud de cambio de rol fue exitosa
             expect(responseChangeRole.status).to.eql(200);

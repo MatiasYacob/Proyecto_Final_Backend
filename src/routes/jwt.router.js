@@ -1,6 +1,6 @@
 import { Router } from "express";
 import JwtController from "../controllers/JwtController.js";
-import { passportCall, authorization } from "../dirname.js";
+import { passportCall, authorization } from "../utils.js";
 
 
 const jwtRouter = Router();

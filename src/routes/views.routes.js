@@ -1,6 +1,6 @@
 // Importación de módulos y dependencias necesarios
 import { Router } from "express";
-import { passportCall, authorization } from "../dirname.js";
+import { passportCall, authorization } from "../utils.js";
 import * as CartController from "../controllers/CartController.js";
 import * as ProductController from "../controllers/ProductController.js";
 import { ticketRepository } from "../services/service.js";

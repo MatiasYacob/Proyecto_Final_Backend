@@ -11,7 +11,7 @@ async function logout() {
 
         if (response.status === 200) {
             // Redirige a la página de inicio de sesión o a donde desees
-            window.location.replace('/users/login');
+            window.location.replace('/api/users/login');
         } else {
             // Maneja el error de alguna manera
             console.error('Error al cerrar sesión:', response.statusText);

@@ -3,7 +3,7 @@
 import { Router } from 'express';
 import * as CartController from '../controllers/CartController.js';
 import * as TicketController from '../controllers/TicketController.js'
-import { passportCall, authorization } from "../dirname.js";
+import { passportCall, authorization } from "../utils.js";
 import errorHandler from "../services/errors/middlewares/ErrorMiddleware.js"
 
 const router = Router();

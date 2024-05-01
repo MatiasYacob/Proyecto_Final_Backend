@@ -1,5 +1,5 @@
 import { Router, response } from 'express';
-import { authToken, passportCall, authorization, uploader } from '../dirname.js';
+import { authToken, passportCall, authorization, uploader } from '../utils.js';
 import UsersController from '../controllers/UsersViewsController.js';
 import passport from 'passport';
 import { addLogger } from "../config/logger_CUSTOM.js";

@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { generateJWToken } from '../dirname.js';
+import { generateJWToken } from '../utils.js';
 import {userRepository} from "../services/service.js";
 
 const SessionsController = {};
@@ -9,7 +9,7 @@ SessionsController.githubAuth = passport.authenticate('github', { scope: ['user:
 
 SessionsController.githubCallback = passport.authenticate('github', {
     failureRedirect: '/github/error',
-    successRedirect: '/users', // Redirigir a la página de usuarios después de una autenticación exitosa
+    successRedirect: '/api/users', // Redirigir a la página de usuarios después de una autenticación exitosa
 });
 
 // Passport local - Registro

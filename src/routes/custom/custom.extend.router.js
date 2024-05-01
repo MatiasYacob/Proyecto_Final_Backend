@@ -1,6 +1,6 @@
 import CustomRouter from './custom.router.js';
 import UserService from '../../services/dao/mongo/users.service.js';
-import { createHash, isValidPassword, generateJWToken } from '../../dirname.js';
+import { createHash, isValidPassword, generateJWToken } from '../../utils.js';
 
 
 export default class UsersExtendRouter extends CustomRouter {

@@ -1,9 +1,9 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import userModel from "../services/dao/mongo/models/user.model.js";
-import { createHash } from "../dirname.js";
+import { createHash } from "../utils.js";
 import jwtStrategy from 'passport-jwt';
-import { PRIVATE_KEY } from "../dirname.js";
+import { PRIVATE_KEY } from "../utils.js";
 
 const localStrategy = passportLocal.Strategy;
 const JwtStrategy = jwtStrategy.Strategy;

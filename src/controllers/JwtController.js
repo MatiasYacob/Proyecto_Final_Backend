@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userModel from "../services/dao/mongo/models/user.model.js";
-import { isValidPassword, generateJWToken } from "../dirname.js";
+import { isValidPassword, generateJWToken } from "../utils.js";
 
 const jwtRouter = Router();
 
