@@ -2,7 +2,6 @@
 import express, { Router } from 'express';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
@@ -37,7 +36,7 @@ import MongoSingleton from './config/mongodb.singleton.js';
 // Passport Initialization
 import initializePassport from '../src/config/passport.config.js';
 
-
+import {messageRepository} from './services/service.js'
 // Configuración de Express
 
 const app = express();
@@ -67,9 +66,6 @@ function initializeApp(app, __dirname) {
   app.use(express.urlencoded({ extended: true }));
   app.set('view engine', 'hbs');
   app.set('views', `${__dirname}/views`);
-  
-  
-  
   app.use('/api/public', (req, res, next) => {
     if (req.url.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
@@ -163,8 +159,42 @@ const httpServer = app.listen(port, () => {
 
 
 const io = new Server(httpServer);
+export { io };
+const messages = [];
+
+io.on("connection", async (socket) => {
+    // Recuperar mensajes anteriores de la base de datos
+    let allMessages = [];
+    try {
+        allMessages = await messageRepository.getAllMessages();
+    } catch (error) {
+        console.error('Error al obtener mensajes anteriores:', error);
+    }
+
+    // Agregar los mensajes recuperados de la base de datos a la matriz de mensajes
+    messages.push(...allMessages);
+
+    socket.on("newUser", (username) => {
+      socket.broadcast.emit("userConnected", username);
+    });
+  
+    socket.on("message", async (data) => {
+        messages.push(data);
+      
+        console.log(messages);
+        io.emit("messages", messages);
+        try {
+            await messageRepository.addMessage(data);
+            console.log('Mensaje guardado en la base de datos.');
+        } catch (error) {
+            console.error('Error al guardar el mensaje:', error);
+        }
+    });
+  
+    socket.emit("messages", messages);
+});
 
 
 
-// Exportar la aplicación Express
+
 export default app;

@@ -5,7 +5,7 @@ import * as CartController from "../controllers/CartController.js";
 import * as ProductController from "../controllers/ProductController.js";
 import { ticketRepository } from "../services/service.js";
 import { addLogger } from "../config/logger_CUSTOM.js";
-
+import {io} from "../app.js"
 // Creación de una instancia de Router
 const router = Router();
 
@@ -41,10 +41,25 @@ router.get("/products", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','
 });
 
 // Ruta para acceder al chat ("/chat")
-router.get("/chat", (req, res) => {
-    req.logger.debug('Accediendo a la ruta /chat');
-    res.render("chat.hbs");
+router.get("/chat", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREMIUM']), (req, res) => {
+    try { 
+        req.logger.debug('Accediendo a la ruta /chat ' + req.user.name);
+        
+        // Guardar el nombre de usuario en res.locals para que esté disponible en el cliente
+        res.locals.username = req.user.name;
+        
+        // Renderizar la página
+        res.render("chat.hbs");
+    } catch (error) {
+        req.logger.error('Error al acceder a la ruta /chat: ' + error.message);
+        res.status(500).send('Error interno del servidor');
+    }
 });
+
+
+
+
+
 
 // Ruta para visualizar productos en el carrito ("/cart")
 router.get("/cart", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREMIUM']), async (req, res) => {

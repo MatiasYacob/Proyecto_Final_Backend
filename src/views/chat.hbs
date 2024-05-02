@@ -1,34 +1,74 @@
-<div class="chat-container">
-    <div class="chat" id="chat-messages">
-      <p id="messages"></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Estilos personalizados */
+    .chat-container {
+      height: 300px; /* Altura fija de la caja de chat */
+      width: 100%;
+    }
+    #chat-messages {
+      height: calc(100% - 50px); /* Altura del contenedor de mensajes (resta el tamaño del footer) */
+    }
+  </style>
+</head>
+<body>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/realtimeproducts">Ir a Carga de productos</a>
+    </li>
+   
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/chat">Ir al Chat</a>
+    </li>
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/cart">Ir al carrito</a>
+    </li>
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/products">Ir a Products</a>
+    </li>
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/apidocs">Documentacion</a>
+    </li>
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/mockingproducts">MockingProducts</a>
+    </li>
+    <li class="page-item mt-3 mr-2 ml-2">
+      <a class="btn btn-primary" href="/loggerTest">loggerTest</a>
+    </li>
+   
+    
+  </ul>
+</nav>
+<div class="container py-5">
+  <div class="card chat-container">
+    <div class="card-body overflow-auto" id="messages">
+      
+      <ul class="list-group list-group-flush">
+        <!-- Aquí se mostrarán los mensajes -->
+      </ul>
     </div>
-    <div class="chat">
-      <input type="text" id="chatbox" placeholder="Escribe un mensaje...">
+    <div class="card-footer">
+      <div class="input-group">
+        <input type="text" class="form-control" id="chatbox" placeholder="Escribe un mensaje...">
+        <button class="btn btn-primary" id="sendButton">Enviar</button>
+      </div>
     </div>
-
-  <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <p> <a href="/realtimeproducts" class="btn btn-primary ml-3">Ir a Carga de productos</a></p>
-            <p> <a href="/cart" class="btn btn-primary ml-3 ">Ir al Carrito</a></p>
-
-            <p> <a href="/products" class="btn btn-primary ml-3">Ir a Products</a></p>
-
-
-
-        </ul>
-
-
-
-    </nav>
-
-
-
-
-
-
-  <!-- Agrega esto en la sección head de tu HTML -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script  src="../public/main.js"></script>
-  <script>askForNameAndSendMessage(""); </script>
+  </div>
 </div>
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- Socket.io JS -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- Main JavaScript -->
+<script src="/main.js"></script>
+
+</body>
+</html>

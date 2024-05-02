@@ -25,3 +25,9 @@ import TicketManager from './dao/mongo/ticket.service.js';
 import TicketRepository from './repository/TicketRepository.js';
 const ticketManager = new TicketManager()
 export const ticketRepository = new TicketRepository(ticketManager)
+
+//Repository de Mensajes
+import MessageManager from './dao/mongo/Message.service.js'
+import MessageRepository from './repository/MessageRepository.js';
+const messageManager = new MessageManager()
+export const messageRepository = new MessageRepository(messageManager)
