@@ -37,8 +37,11 @@ SessionsController.login = passport.authenticate('login', {
     failureRedirect: "/api/session/fail-login",
 });
 
+
+
 SessionsController.logout = async (req, res) => {
     try {
+        
         // Obtener el ID del usuario de la sesión
         
         const userId = req.user._id;
@@ -47,6 +50,8 @@ SessionsController.logout = async (req, res) => {
 
         // Eliminar la sesión del usuario
         req.session.destroy((err) => {
+            
+            
             if (err) {
                 console.error("Error al desloguear:", err);
                 return res.status(500).send({ status: "error", message: "Error al desloguear" });

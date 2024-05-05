@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { passportCall, authorization } from "../utils.js";
 
 
+
 const router = Router();
 
 
@@ -14,7 +15,7 @@ router.post("/logout", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','P
     try {
         
         await SessionsController.logout(req, res);
-        
+        res.clearCookie('jwtCookieToken');
     } catch (error) {
         req.logger.error('Error al Desloguear', error);
         res.status(500).send('Error interno del servidor');

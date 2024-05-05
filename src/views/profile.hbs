@@ -47,8 +47,8 @@
         </div>
         <a class="btn btn-primary" href="/tickets">Ver Mis Tickets</a>
         <!-- Botón para cambiar el rol del usuario -->
-        <button id="changeRoleButton" class="btn btn-warning">Cambiar Rol</button>
-        <button id="logoutButton" class="btn btn-danger">Cerrar Sesión</button>
+        <button onclick="cambiarRol('{{user._id}}')" class="btn btn-warning">Cambiar Rol</button>
+        <button onclick="logOut()" class="btn btn-danger">Cerrar Sesión</button>
     </div>
 <h2>Subir Documentos:  <button class="btn btn-outline-secondary" type="button" data-bs-toggle="popover" title="Tipos de Documentos Permitidos" data-bs-content="Identificacion, Comprobante de domicilio, Comprobante de estado de cuenta">
     &#9432;

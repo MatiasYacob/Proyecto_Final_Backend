@@ -64,7 +64,9 @@ UsersController.changeUserRole = async (req, res) => {
         await user.save();
 
         // Enviar la respuesta con el usuario actualizado
+        res.clearCookie('jwtCookieToken');
         res.status(200).json({ message: "Rol de usuario actualizado correctamente", user });
+       
     } catch (error) {
         console.error("Error al cambiar el rol del usuario:", error);
         res.status(500).json({ error: "Error interno del servidor" });

@@ -86,38 +86,72 @@ function uploadDocuments() {
 }
 
 
-document.getElementById('changeRoleButton').addEventListener('click', function () {
-    const userId = "{{user._id}}"; // Obtener el ID del usuario de Handlebars
-
-    fetch(`/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({}) // No necesitamos enviar ningún cuerpo en este caso
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cambiar el rol del usuario');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Actualizar dinámicamente el contenido del rol
-            const userRoleElement = document.getElementById('userRole');
-            if (userRoleElement) {
-                userRoleElement.innerHTML = `<strong>Rol:</strong> ${data.user.role}`;
-            }
-            console.log('Rol del usuario cambiado correctamente:', data);
-        })
-        .catch(error => {
-            console.error('Error al cambiar el rol del usuario:', error);
-            // Manejar el error si es necesario
-        });
-});
 
 
-document.getElementById('logoutButton').addEventListener('click', function () {
+
+
+function cambiarRol(id) {
+    const userId = id; // Obtener el ID del usuario de Handlebars
+
+    // Mostrar un mensaje de confirmación utilizando SweetAlert2
+    Swal.fire({
+        title: 'Confirmación',
+        text: '¿Estás seguro de cambiar el rol del usuario?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cambiar rol',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Realizar la solicitud para cambiar el rol del usuario
+            fetch(`/api/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cambiar el rol del usuario');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Actualizar dinámicamente el contenido del rol
+                const userRoleElement = document.getElementById('userRole');
+                if (userRoleElement) {
+                    userRoleElement.innerHTML = `<strong>Rol:</strong> ${data.user.role}`;
+                }
+                console.log('Rol del usuario cambiado correctamente:', data);
+
+                // Mostrar un mensaje de éxito y redirigir al usuario a la página de inicio de sesión
+                Swal.fire({
+                    title: 'Rol cambiado',
+                    text: 'El rol del usuario ha sido cambiado correctamente. Debes iniciar sesión nuevamente.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '/api/users/login';
+                });
+            })
+            .catch(error => {
+                console.error('Error al cambiar el rol del usuario:', error);
+                // Mostrar un mensaje de error utilizando SweetAlert2
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un error al cambiar el rol del usuario. Por favor, inténtalo de nuevo más tarde.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+    });
+}
+
+
+
+ function logOut () {
     // Realizar la acción de cierre de sesión aquí
     // Por ejemplo, realizar una solicitud POST a la ruta de cierre de sesión
     fetch('/api/sessions/logout/', {
@@ -134,4 +168,4 @@ document.getElementById('logoutButton').addEventListener('click', function () {
             console.error('Error al cerrar sesión:', error);
             // Manejar el error si es necesario
         });
-});
+};

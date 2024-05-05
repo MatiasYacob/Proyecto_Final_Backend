@@ -39,7 +39,10 @@ router.post('/:uid/documents', uploader.array('documents'), async (req, res) => 
 //Intercambia los roles de "usuario" a "premium" segun haga falta
 router.put('/:userId', (req, res) => {
     req.logger.info('Intercambiando Roles del usuario con ID: ' + req.params.userId);
+
     UsersController.changeUserRole(req, res);
+   
+   
 });
 
 //Intercambia los roles de "usuario" a "premium" solo si el usuario tiene cargado los archivos identificación, Comprobante de domicilio, Comprobante de estado de cuenta
