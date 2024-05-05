@@ -1,59 +1,44 @@
 
-// const socket = io();
+    async function AddProductToCart(productId) {
+    try {
+        console.log(productId);
 
+        const response = await fetch(`api/carts/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-// // Definir una variable global para almacenar el userId
-// let globalUserId = null;
+        if (!response.ok) {
+            throw new Error(`Error al agregar el producto al carrito: ${response.status}`);
+        }
 
-// async function obtenerUserId() {
-//   try {
-//     const response = await fetch('http://localhost:3000/userid', {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       credentials: 'include',
-//     });
+        const data = await response.json();
+        console.log('Producto agregado al carrito:', data);
 
-//     if (response.ok) {
-//       const data = await response.json();
-//       // Guardar el userId en la variable global
-//       globalUserId = data.userId;
-//       return data.userId;
-//     } else {
-//       const errorData = await response.json();
-//       console.error('Error en la respuesta del servidor:', errorData);
-//       return null;
-//     }
-//   } catch (error) {
-//     console.error('Error en la solicitud para obtener el userId:', error);
-//     return null;
-//   }
-// }
-// async function realizarAccionesDespuesDeObtenerUserId() {
-//   // Esperar a que se obtenga el userId
-//   await obtenerUserId();
+        // Show success toast using SweetAlert
+           await Swal.fire({
+            icon: 'success',
+            title: 'Producto agregado al carrito',
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            toast:true
+        });
 
-//   // Ahora globalUserId debe tener el valor correcto
-//   console.log(globalUserId);
+        // Realizar acciones adicionales si es necesario, por ejemplo, actualizar la interfaz de usuario
 
-//   // Puedes realizar otras acciones aquí
-// }
+    } catch (error) {
+        
+        await Swal.fire({
+        title: 'Error al agregar el producto al carrito',
+        text: error.message || 'Ocurrió un error inesperado',
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+    });
 
-// // Llamar a la función que espera a que se obtenga el userId
-// realizarAccionesDespuesDeObtenerUserId();
+        // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error al usuario
+    }
+}
 
-// function AddProductToCart(_id) {
-//   // Obtener el userId desde la variable global
-//   const userId = globalUserId;
-
-//   if (!userId) {
-//     console.error('No se pudo obtener el userId.');
-//     return;
-//   }
-
-//   console.log('Emitiendo evento al servidor con userId y _id:', { userId, _id });
-
-//   // Emitir evento al servidor con el id del producto y el userId
-//   socket.emit('AddProduct_toCart', { userId, _id });
-// }

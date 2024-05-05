@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Web Page Title</title>
+    <title>Productos</title>
 
     <!-- Include jQuery before Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="d-flex justify-content-center align-items-center mt-4">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -76,51 +76,7 @@
     </div>
 </div>
 
-<script>
-    async function AddProductToCart(productId) {
-    try {
-        console.log(productId);
-
-        const response = await fetch(`api/carts/${productId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error al agregar el producto al carrito: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Producto agregado al carrito:', data);
-
-        // Show success toast using SweetAlert
-           await Swal.fire({
-            icon: 'success',
-            title: 'Producto agregado al carrito',
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            toast:true
-        });
-
-        // Realizar acciones adicionales si es necesario, por ejemplo, actualizar la interfaz de usuario
-
-    } catch (error) {
-        
-        await Swal.fire({
-        title: 'Error al agregar el producto al carrito',
-        text: error.message || 'Ocurrió un error inesperado',
-        icon: 'error',
-        confirmButtonText: 'Aceptar',
-    });
-
-        // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error al usuario
-    }
-}
-
-</script>
+<script src="/productos.js" ></script>
 
 </body>
 </html>

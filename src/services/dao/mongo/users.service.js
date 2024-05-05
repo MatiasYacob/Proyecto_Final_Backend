@@ -2,16 +2,16 @@ import userModel from "./models/user.model.js";
 import {createHash} from "../../../utils.js";
  class UserService {
     constructor(){
-        console.log("Calling users model using a service.");
+        
     };  
    
     Register = async (user) => {
         try {
             const exist = await userModel.findOne({ email: user.email });
-            console.log("Calling users model using a service.");
+            
 
             if (exist) {
-                console.log("El usuario ya existe");
+                
                 return { success: false, message: "El usuario ya existe" };
             }
 
@@ -25,10 +25,10 @@ import {createHash} from "../../../utils.js";
 
             const result = await userModel.create(newUser);
 
-            console.log(result);
+            
             return { success: true, message: "Registro exitoso", user: result };
         } catch (error) {
-            console.error("Error registrando usuario:", error);
+            
             return { success: false, message: "Error registrando usuario" };
         }
     };
@@ -38,7 +38,7 @@ import {createHash} from "../../../utils.js";
             const user = await userModel.findById(userId);
 
             if (!user) {
-                console.log("El usuario no existe" + userId);
+               
                 return { success: false, message: "El usuario no existe" };
             }
 
@@ -48,10 +48,10 @@ import {createHash} from "../../../utils.js";
             // Guardar los cambios en la base de datos
             await user.save();
 
-            console.log("Última conexión actualizada correctamente");
+            
             return { success: true, message: "Última conexión actualizada correctamente" };
         } catch (error) {
-            console.error("Error al actualizar la última conexión:", error);
+            
             return { success: false, message: "Error al actualizar la última conexión" };
         }
     };

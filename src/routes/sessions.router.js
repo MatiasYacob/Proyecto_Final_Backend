@@ -7,16 +7,6 @@ import { passportCall, authorization } from "../utils.js";
 const router = Router();
 
 
-
-// Passport local - Registro
-router.post('/register', SessionsController.register, (req, res) => {
-    console.log("Registrando usuario:");
-    // Puedes manejar la respuesta aquí y decidir si redirigir o enviar otra respuesta.
-    res.status(201).send("Registro exitoso");
-});
-
-
-
 // Logout
 
 
@@ -24,9 +14,9 @@ router.post("/logout", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','P
     try {
         
         await SessionsController.logout(req, res);
-        req.logger.info("Ingresando a El Carrito")
+        
     } catch (error) {
-        req.logger.error('Error al obtener los productos en el carrito:', error);
+        req.logger.error('Error al Desloguear', error);
         res.status(500).send('Error interno del servidor');
     }
 });
@@ -50,9 +40,6 @@ router.get('/current', async (req, res) => {
         return res.status(401).send({ status: "error", message: "Token no válido." });
     }
 });
-
-
-
 
 
 // Error en el registro

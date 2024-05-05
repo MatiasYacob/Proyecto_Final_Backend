@@ -1,7 +1,6 @@
 import { Router, response } from 'express';
 import { authToken, passportCall, authorization, uploader } from '../utils.js';
 import UsersController from '../controllers/UsersViewsController.js';
-import passport from 'passport';
 import { addLogger } from "../config/logger_CUSTOM.js";
 import { userRepository } from '../services/service.js';
 
@@ -67,10 +66,6 @@ router.get("/", passportCall('jwt'), (req, res) => {
     UsersController.renderProfile(req, res);
 });
 
-// Obtiene información del usuario por ID
-router.get("/:userId", authToken, (req, res) => {
-    req.logger.info(`Accediendo a la ruta /${req.params.userId} (obtener información del usuario por ID)`);
-    UsersController.getUserById(req, res);
-});
+
 
 export default router;
