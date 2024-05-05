@@ -3,6 +3,59 @@ import {userRepository} from '../services/service.js';
 
 const UsersController = {};
 
+
+
+
+
+
+// Controlador para obtener todos los usuarios
+UsersController.GetAllUsers = async (req, res) => {
+    try {
+        // Obtiene todos los usuarios desde el repositorio
+        const allUsers = await userRepository.getAll();
+        if (allUsers.success) {
+            // Si la obtención de usuarios fue exitosa, renderiza la plantilla 'admin' y pasa los usuarios obtenidos como datos
+            res.render('admin', { users: allUsers.users });
+        } else {
+            // Si hubo un error al obtener usuarios, renderiza una página de error o maneja el error de alguna otra manera
+            res.render('error', { message: allUsers.message });
+        }
+    } catch (error) {
+        // Si ocurrió un error durante el proceso, renderiza una página de error o maneja el error de alguna otra manera
+        res.render('error', { message: "Error al obtener usuarios" });
+    }
+}
+
+// Eliminar usuario por correo electrónico
+// Eliminar usuario por correo electrónico
+UsersController.DeleteUserByEmail = async (email) => {
+    try {
+        const result = await userRepository.deleteUserByEmail(email);
+        return result; // Devuelve el resultado de la eliminación de usuario
+    } catch (error) {
+        return { success: false, message: "Error al eliminar usuario" }; // Devuelve un objeto indicando que ocurrió un error
+    }
+};
+
+
+// Eliminar usuarios inactivos
+UsersController.DeleteInactiveUsers = async (req, res) => {
+    try {
+        const result = await userRepository.deleteInactiveUsers();
+        if (result.success) {
+            res.status(200).json({ message: result.message });
+        } else {
+            res.status(500).json({ error: result.message });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error al eliminar usuarios inactivos" });
+    }
+};
+
+
+
+
+
 //Upload
 UsersController.uploadDoc = async (req, res) =>{
     const userId = req.params.userId;

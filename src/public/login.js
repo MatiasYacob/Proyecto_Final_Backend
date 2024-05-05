@@ -15,17 +15,26 @@ form.addEventListener('submit', e => {
         if (result.status === 200) {
             result.json()
                 .then(json => {
-                 
                     console.log("Cookies generadas:");
                     console.log(document.cookie);
-                    alert("Login realizado con exito!");
-                    window.location.replace('/api/users');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login exitoso!',
+                        text: 'Has iniciado sesión correctamente.',
+                        confirmButtonText: 'Aceptar',
+                        onClose: () => {
+                            window.location.replace('/api/users');
+                        }
+                    });
                 });
         } else if (result.status === 401) {
             console.log(result);
-            alert("Login invalido revisa tus credenciales!");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de inicio de sesión',
+                text: 'Credenciales inválidas. Por favor, verifica tus datos e intenta nuevamente.',
+                confirmButtonText: 'Aceptar'
+            });
         }
-    })
-})
-
-
+    });
+});

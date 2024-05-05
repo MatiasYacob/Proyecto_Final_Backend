@@ -5,6 +5,7 @@ import * as CartController from "../controllers/CartController.js";
 import * as ProductController from "../controllers/ProductController.js";
 import { ticketRepository } from "../services/service.js";
 import { addLogger } from "../config/logger_CUSTOM.js";
+import UsersController from '../controllers/UsersViewsController.js';
 
 // Creación de una instancia de Router
 const router = Router();
@@ -17,6 +18,14 @@ router.get("/", (req, res) => {
     req.logger.info('Accediendo a la ruta /');
     res.render("home.hbs");
 });
+
+
+router.get('/api/admin', UsersController.GetAllUsers);
+
+
+
+
+
 
 // Ruta para visualizar productos en tiempo real ("/realtimeproducts")
 router.get('/realtimeproducts', passportCall('jwt'), authorization(['ADMIN','PREMIUM']), async (req, res) => {

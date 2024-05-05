@@ -14,6 +14,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUIExpress from 'swagger-ui-express';
 
 // Rutas
+import adminRouter from './routes/admin.router.js'
 import mokingRouter from './routes/mock.router.js'
 import productRouter from './routes/product.router.js';
 import cartRouter from './routes/cart.router.js';
@@ -85,6 +86,7 @@ app.use(passport.session());
 app.use(cookieParser("CoderS3cr3tC0d3"));
 
 // Configuración de Handlebars como motor de vistas
+
 app.engine(
   "hbs",
   handlebars.engine({
@@ -108,6 +110,7 @@ mongoInstance()
 
 
 // Definición de rutas para la API y las vistas
+app.use('/api/admin', adminRouter)
 app.use('/api/product', productRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);

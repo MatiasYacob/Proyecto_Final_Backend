@@ -5,6 +5,21 @@ import {createHash} from "../../../utils.js";
         
     };  
    
+    getAll = async () => {
+        try {
+            // Utiliza el método find de userModel para obtener todos los usuarios
+            const users = await userModel.find({}, { email: 1, age: 1,role: 1, documents: 1, last_connection: 1 });
+            
+            // Retorna la lista de usuarios obtenida
+            return { success: true, message: "Usuarios obtenidos correctamente", users };
+        } catch (error) {
+            // Manejo de errores en caso de fallo al obtener usuarios
+            return { success: false, message: "Error al obtener usuarios" };
+        }
+    };
+    
+
+
     Register = async (user) => {
         try {
             const exist = await userModel.findOne({ email: user.email });
@@ -56,6 +71,30 @@ import {createHash} from "../../../utils.js";
         }
     };
 
+    //Borrar usuario 
+    deleteUserByEmail = async (email) => {
+        try {
+            const deletedUser = await userModel.findOneAndDelete({ email });
+            if (!deletedUser) {
+                return { success: false, message: "Usuario no encontrado" };
+            }
+            return { success: true, message: "Usuario eliminado correctamente", user: deletedUser };
+        } catch (error) {
+            return { success: false, message: "Error al eliminar usuario" };
+        }
+    };
+    // borrar usuarios inactivos (2 dias)
+    
+    deleteInactiveUsers = async () => {
+        try {
+            const twoDaysAgo = new Date();
+            twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+            const deletedUsers = await userModel.deleteMany({ last_connection: { $lt: twoDaysAgo } });
+            return { success: true, message: `${deletedUsers.deletedCount} usuarios eliminados correctamente` };
+        } catch (error) {
+            return { success: false, message: "Error al eliminar usuarios inactivos" };
+        }
+    };
 
 
 
