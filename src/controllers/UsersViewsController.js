@@ -4,10 +4,6 @@ import {userRepository} from '../services/service.js';
 const UsersController = {};
 
 
-
-
-
-
 // Controlador para obtener todos los usuarios
 UsersController.GetAllUsers = async (req, res) => {
     try {
@@ -27,7 +23,6 @@ UsersController.GetAllUsers = async (req, res) => {
 }
 
 // Eliminar usuario por correo electrónico
-// Eliminar usuario por correo electrónico
 UsersController.DeleteUserByEmail = async (email) => {
     try {
         const result = await userRepository.deleteUserByEmail(email);
@@ -37,23 +32,19 @@ UsersController.DeleteUserByEmail = async (email) => {
     }
 };
 
-
-// Eliminar usuarios inactivos
+// Eliminar usuarios inactivos (2Dias)
 UsersController.DeleteInactiveUsers = async (req, res) => {
     try {
         const result = await userRepository.deleteInactiveUsers();
         if (result.success) {
-            res.status(200).json({ message: result.message });
+            return res.status(200).json({ message: result.message });
         } else {
-            res.status(500).json({ error: result.message });
+            return res.status(500).json({ error: result.message });
         }
     } catch (error) {
-        res.status(500).json({ error: "Error al eliminar usuarios inactivos" });
+        return res.status(500).json({ error: "Error al eliminar usuarios inactivos" });
     }
 };
-
-
-
 
 
 //Upload
@@ -97,6 +88,52 @@ UsersController.renderProfile = (req, res) => {
         user: req.user
     });
 };
+
+UsersController.changeUserRoleMail = async (req, res) => {
+    const userEmail = req.params.mail; // Cambiar de userId a userEmail
+
+    try {
+        // Obtener el usuario por su correo electrónico
+        const user = await userModel.findOne({ email: userEmail });
+
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado con correo electrónico: " + userEmail });
+        }
+
+        // Verificar si el usuario tiene el rol "usuario"
+        if (user.role === "usuario") {
+            
+            // Verificar si el usuario tiene todos los documentos requeridos
+            const requiredDocuments = ["Identificacion", "Comprobante de domicilio", "Comprobante de estado de cuenta"];
+            const userDocuments = user.documents.map(doc => {
+                const parts = doc.name.split('.'); // Divide el nombre del documento por el guión bajo
+                return parts[0]; // Devuelve la primera parte (nombre del documento sin el email)
+            });
+            
+            const hasAllDocuments = requiredDocuments.every(doc => userDocuments.includes(doc));
+            
+            if (!hasAllDocuments) {
+                return res.status(400).json({ message: "El usuario debe cargar todos los documentos requeridos antes de actualizar su rol a premium" });
+            }
+        }
+
+        // Determinar el nuevo rol opuesto al actual
+        const newRole = user.role === "usuario" ? "premium" : "usuario";
+
+        // Actualizar el rol del usuario
+        user.role = newRole;
+        await user.save();
+
+        // Enviar la respuesta con el usuario actualizado
+        res.status(200).json({ message: "Rol de usuario actualizado correctamente", user });
+    } catch (error) {
+        console.error("Error al cambiar el rol del usuario:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+};
+
+
+
 
 UsersController.changeUserRole = async (req, res) => {
     const userId = req.params.userId;

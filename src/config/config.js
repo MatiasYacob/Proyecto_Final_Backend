@@ -1,5 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as commander from 'commander';
+import { Devlogger } from './logger_CUSTOM.js';
+
 
 const { Command } = commander;
 
@@ -12,7 +14,7 @@ program
 
 program.parse();
 
-console.log("Mode Option: ", program.opts().mode);
+Devlogger.info("Opciones de línea de comandos:", program.opts());
 
 const environment = program.opts().mode;
 

@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 import config from "./config.js";
+import { Devlogger } from "./logger_CUSTOM.js";
 
 export default class MongoSingleton {
     static #instance;
-
 
     constructor() {
         this.#connectMongoDB();
     }
 
-    // Implementacon Singleton
+    // Implementación Singleton
     static getInstance() {
         if (this.#instance) {
-            console.log("Ya se ha abierto una conexion a MongoDB.");
+            Devlogger.info("Ya se ha abierto una conexión a MongoDB.");
         } else {
             this.#instance = new MongoSingleton();
         }
@@ -22,14 +22,12 @@ export default class MongoSingleton {
     #connectMongoDB = async () => {
         try {
             await mongoose.connect(config.mongoUrl);
-            console.log("Conectado con exito a MongoDB usando Moongose.");
-
+            Devlogger.info("Conectado con éxito a MongoDB usando Mongoose.");
         } catch (error) {
-            
-            console.error("No se pudo conectar a la BD usando Moongose: " + error);
-            console.log("mongoURl"+ config.mongoUrl);
-            console.log("puerto"+ config.port);
-            process.exit();
+            Devlogger.error("No se pudo conectar a la BD usando Mongoose: " + error);
+            Devlogger.info("mongoURL: " + config.mongoUrl);
+            Devlogger.info("puerto: " + config.port);
+            process.exit(1);
         }
     }
 };

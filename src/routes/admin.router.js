@@ -7,8 +7,24 @@ import { passportCall, authorization } from "../utils.js";
 
 const router = Router();
 
-router.delete('/:mail', passportCall('jwt'), authorization(['ADMIN','PREMIUM']), async (req, res) => {
+router.delete('/inactive', passportCall('jwt'), authorization(['ADMIN']), async (req, res) =>{
     try {
+        await UsersController.DeleteInactiveUsers(req, res);
+    } catch (error) {
+        // Maneja el error de manera adecuada
+        req.logger.error(`Error interno al eliminar usuarios: ${error.message}`);
+        res.status(500).json({ error: "Error interno al eliminar usuarios" });
+    }
+});
+
+
+
+
+
+//Ruta para borrar un usuario (Mail)
+router.delete('/:mail', passportCall('jwt'), authorization(['ADMIN']), async (req, res) => {
+    try {
+        
         const email = req.params.mail;
         const result = await UsersController.DeleteUserByEmail(email);
         if (result.success) {
@@ -25,6 +41,23 @@ router.delete('/:mail', passportCall('jwt'), authorization(['ADMIN','PREMIUM']),
         res.status(500).json({ error: "Error interno al eliminar usuario" });
     }
 });
+
+//cambiar el roll del usuario (Mail)
+router.post('/:mail', passportCall('jwt'), authorization(['ADMIN']), async (req, res) => {
+    try {
+    
+        const email = req.params.mail;
+        const result = await UsersController.changeUserRoleMail(req, res);
+     
+    } catch (error) {
+        // Maneja el error de manera adecuada, como registrar el error
+        req.logger.error(`Error interno : ${error.message}`);
+     
+    }
+});
+
+
+
 
 
 

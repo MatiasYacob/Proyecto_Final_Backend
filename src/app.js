@@ -1,5 +1,4 @@
-// Importación de módulos y archivos necesarios
-import express, { Router } from 'express';
+import express from 'express';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import MongoStore from 'connect-mongo';
@@ -9,7 +8,7 @@ import passport from 'passport';
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import Handlebars from "handlebars";
 import config from './config/config.js';
-import { addLogger } from './config/logger_CUSTOM.js';
+import { addLogger , Devlogger } from './config/logger_CUSTOM.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUIExpress from 'swagger-ui-express';
 
@@ -68,12 +67,14 @@ app.use(
 
 // Función para inicializar la aplicación
 function initializeApp(app, __dirname) {
+ 
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.set('view engine', 'hbs');
   app.set('views', `${__dirname}/views`);
   app.use(express.static(path.join(__dirname, 'public')));
-  console.log(__dirname);
+  Devlogger.info(__dirname);
 }
 
 
@@ -102,7 +103,7 @@ const mongoInstance = async () => {
   try {
       await MongoSingleton.getInstance()
   } catch (error) {
-      console.log(error);
+      Devlogger.error(error);
   }
 }
 mongoInstance()
@@ -144,8 +145,9 @@ app.use('/api/extend/api/users', usersExtendRouter.getRouter());
 
 // Creación del servidor HTTP y Socket.IO
 const httpServer = app.listen(port, () => {
-  console.log(`Servidor Express corriendo en el puerto ${port}`);
+  Devlogger.info(`Servidor Express corriendo en el puerto ${port}`);
 });
+
 
 
 //Todo lo Referido a IO
@@ -159,7 +161,7 @@ io.on("connection", async (socket) => {
     try {
         allMessages = await messageRepository.getAllMessages();
     } catch (error) {
-        console.error('Error al obtener mensajes anteriores:', error);
+        Devlogger.error('Error al obtener mensajes anteriores:', error);
     }
 
     // Agregar los mensajes recuperados de la base de datos a la matriz de mensajes
@@ -178,7 +180,7 @@ io.on("connection", async (socket) => {
             await messageRepository.addMessage(data);
             
         } catch (error) {
-            console.error('Error al guardar el mensaje:', error);
+            Devlogger.error('Error al guardar el mensaje:', error);
         }
     });
   

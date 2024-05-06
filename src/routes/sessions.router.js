@@ -8,6 +8,15 @@ import { passportCall, authorization } from "../utils.js";
 const router = Router();
 
 
+// Passport local - Registro
+router.post('/register', SessionsController.register, (req, res) => {
+    console.log("Registrando usuario:");
+    // Puedes manejar la respuesta aquí y decidir si redirigir o enviar otra respuesta.
+    res.status(201).send("Registro exitoso");
+});
+
+
+
 // Logout
 
 

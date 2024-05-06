@@ -1,5 +1,6 @@
 import userModel from "./models/user.model.js";
 import {createHash} from "../../../utils.js";
+import { sendEmail } from "../../../controllers/EmailController.js";
  class UserService {
     constructor(){
         
@@ -87,14 +88,49 @@ import {createHash} from "../../../utils.js";
     
     deleteInactiveUsers = async () => {
         try {
+            console.log("Iniciando la eliminación de usuarios inactivos...");
             const twoDaysAgo = new Date();
             twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-            const deletedUsers = await userModel.deleteMany({ last_connection: { $lt: twoDaysAgo } });
-            return { success: true, message: `${deletedUsers.deletedCount} usuarios eliminados correctamente` };
+            console.log("Fecha de referencia para la eliminación:", twoDaysAgo);
+            
+            // Obtener usuarios inactivos que deben ser eliminados
+            const usersToDelete = await userModel.find({ 
+                $or: [
+                    { last_connection: { $exists: true, $lt: twoDaysAgo } }, // Usuarios con last_connection y son mayores que dos días
+                    { last_connection: { $exists: false } } // Usuarios que no tienen el campo last_connection
+                ]
+            });
+    
+            if (usersToDelete.length === 0) {
+                console.log("No se encontraron usuarios inactivos para eliminar.");
+                return { success: true, message: "No se encontraron usuarios inactivos para eliminar." };
+            } else {
+                // Obtener los correos electrónicos de los usuarios a eliminar
+                const emailsToDelete = usersToDelete.map(user => user.email);
+    
+                // Enviar correos electrónicos a los usuarios antes de eliminarlos
+                for (const email of emailsToDelete) {
+                    await sendEmail(email, 'Eliminación de cuenta por inactividad', 'Tu cuenta ha sido eliminada debido a la inactividad durante un largo período de tiempo.');
+                    console.log(`Correo electrónico enviado a ${email}`);
+                }
+    
+                // Eliminar usuarios inactivos
+                const deletedUsers = await userModel.deleteMany({ _id: { $in: usersToDelete.map(user => user._id) } });
+                console.log(`${deletedUsers.deletedCount} usuarios eliminados correctamente.`);
+                return { success: true, message: `${deletedUsers.deletedCount} usuarios eliminados correctamente.` };
+            }
         } catch (error) {
+            console.error("Error al eliminar usuarios inactivos:", error);
             return { success: false, message: "Error al eliminar usuarios inactivos" };
         }
     };
+    
+    
+    
+    
+    
+    
+    
 
 
 
