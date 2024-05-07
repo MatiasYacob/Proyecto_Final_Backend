@@ -26,34 +26,60 @@
     }
 
     
-      //Funcion para borrar producto
-  async function deleteProduct(productId) {
+//Funcion para borrar producto
+async function deleteProduct(productId) {
     try {
-        // Hacer una solicitud DELETE al servidor
-        const response = await fetch(`/api/product/${productId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                // Aquí podrías incluir el token JWT si es necesario para la autenticación
-                // 'Authorization': 'Bearer ' + tuTokenJWT,
-            },
+        // Mostrar confirmación antes de borrar el producto
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
         });
 
-        if (!response.ok) {
-            throw new Error(`Error al eliminar el producto: ${response.status}`);
+        if (result.isConfirmed) {
+            // Mostrar ventana de carga
+            Swal.fire({
+                title: 'Eliminando producto...',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Hacer una solicitud DELETE al servidor
+            const response = await fetch(`/api/product/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Aquí podrías incluir el token JWT si es necesario para la autenticación
+                    // 'Authorization': 'Bearer ' + tuTokenJWT,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error al eliminar el producto: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Ocultar la ventana de carga
+            Swal.close();
+
+            if (data) {
+                location.reload();
+            }
+
+            // Puedes realizar otras acciones aquí después de borrar el producto
         }
-
-        const data = await response.json();
-        
-        if(data) {
-            location.reload();
-        }
-
-        // Puedes realizar otras acciones aquí después de borrar el producto
-
     } catch (error) {
         console.error('Error al eliminar el producto de la BD:', error);
-        // Mostrar una alerta en caso de error debido a falta de permisos
+        // Mostrar SweetAlert 2 en caso de error
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -61,6 +87,8 @@
         });
     }
 }
+
+
 
 
 

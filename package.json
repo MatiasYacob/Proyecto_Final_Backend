@@ -25,6 +25,7 @@
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
     "handlebars": "^4.7.8",
+    "handlebars-helpers": "^0.9.8",
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.4.0",
     "mongoose": "^8.0.3",
@@ -42,7 +43,7 @@
     "supertest": "^6.3.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "sweetalert2": "^11.10.1",
+    "sweetalert2": "^11.6.13",
     "url": "^0.11.3",
     "winston": "^3.12.0"
   },

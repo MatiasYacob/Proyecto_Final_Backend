@@ -1,6 +1,7 @@
 import express from 'express';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
+import helpers from 'handlebars-helpers';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
@@ -92,6 +93,7 @@ app.engine(
   "hbs",
   handlebars.engine({
     extname: "hbs",
+    helpers: helpers(),
     defaultLayout: "main",
     handlebars: allowInsecurePrototypeAccess(Handlebars),
   })

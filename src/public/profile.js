@@ -169,3 +169,63 @@ function cambiarRol(id) {
             // Manejar el error si es necesario
         });
 };
+
+
+//CHEAT CODES
+// Secuencia de teclas deseada
+var secuenciaDeseada = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+// Teclas presionadas hasta el momento
+var teclasPresionadas = [];
+
+// Función para manejar el evento de teclado
+function handleKeyPress(event) {
+    // Agregar la tecla presionada a la lista de teclas
+    teclasPresionadas.push(event.code);
+    console.log('Secuencia de teclas: ', teclasPresionadas);
+
+    // Limitar la longitud del array de teclas presionadas
+    if (teclasPresionadas.length > secuenciaDeseada.length) {
+        // Eliminar las teclas más antiguas si se excede el límite
+        teclasPresionadas.shift();
+    }
+
+    // Verificar si la lista de teclas coincide con la secuencia deseada
+    if (arraysIguales(teclasPresionadas, secuenciaDeseada)) {
+        // Reproducir el audio
+        var audio = document.getElementById("audioPlayer");
+        audio.play();
+
+        // Reiniciar la lista de teclas presionadas
+        teclasPresionadas = [];
+    }
+}
+
+// Función para verificar si dos arrays son iguales
+function arraysIguales(arr1, arr2) {
+    // Si las longitudes son diferentes, los arrays no son iguales
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    // Verificar cada elemento en los arrays
+    for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    // Si llegamos aquí, los arrays son iguales
+    return true;
+}
+
+// Agregar un event listener de teclado para detectar las teclas presionadas
+document.addEventListener("keydown", handleKeyPress);
+var cambiarRolBtn = document.getElementById("cambiarRolBtn");
+var audio = document.getElementById("audioPlayer");
+audio.addEventListener("play", function() {
+    // Mostrar el botón de cambio de rol
+    
+    // Simular un clic en el botón de cambio de rol
+    cambiarRolBtn.click();
+});
