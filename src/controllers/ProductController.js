@@ -1,5 +1,6 @@
 import { productRepository } from "../services/service.js";
 import mongoose from "mongoose";
+import { sendEmail } from "./EmailController.js";
 
 export async function getAllProducts(req, res) {
     try {
@@ -146,7 +147,35 @@ export async function deleteProduct(req, res) {
         if (req.user.role === "admin" || product.owner === req.user.email) {
             // Eliminar el producto
             const deletedProduct = await productRepository.delete(productId);
-
+            if(req.user.role === "admin" && product.owner != "admin"){
+                await sendEmail(product.owner, 'Eliminación de Producto Publicado', `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Eliminación de Producto Publicado</title>
+                </head>
+                <body>
+                    <div>
+                        <h2>Eliminación de Producto Publicado</h2>
+                        <p>Hola ${product.owner},</p>
+                        <p>Tu producto: ${deletedProduct.title} ha sido eliminado por un administrador.</p>
+                        <p>Aquí están los detalles del producto eliminado:</p>
+                        <ul>
+                            <li><strong>Título:</strong> ${deletedProduct.title}</li>
+                            <li><strong>Descripción:</strong> ${deletedProduct.description}</li>
+                            <li><strong>Código:</strong> ${deletedProduct.code}</li>
+                            <li><strong>Precio:</strong> ${deletedProduct.price}</li>
+                            <li><strong>Stock:</strong> ${deletedProduct.stock}</li>
+                        </ul>
+                        <p>Por favor, ponte en contacto con nosotros si necesitas más información.</p>
+                        <p>Gracias,</p>
+                        <p>El equipo de Administradores</p>
+                    </div>
+                </body>
+                </html>
+                `);
+            }
             req.logger.info('Producto eliminado exitosamente.');
             return res.status(200).json({
                 status: 'success',
