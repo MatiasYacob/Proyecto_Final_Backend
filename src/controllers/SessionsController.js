@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { generateJWToken } from '../utils.js';
 import {userRepository} from "../services/service.js";
-
+import { Devlogger } from '../config/logger_CUSTOM.js';
 const SessionsController = {};
 
 // Passport GitHub

@@ -3,6 +3,7 @@ import { Cart } from "./models/cart.model.js";
 import { Product } from "./models/product.model.js";
 import userModel from "./models/user.model.js";
 import { sendTicketByEmail } from "../../../controllers/EmailController.js";
+import { Devlogger } from "../../../config/logger_CUSTOM.js";
 
 class TicketManager {
     constructor() {}

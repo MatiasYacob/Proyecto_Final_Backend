@@ -1,6 +1,6 @@
 import express from "express";
 import { productRepository } from '../services/service.js';
-
+import { Devlogger } from "../config/logger_CUSTOM.js";
 const router = express.Router();
 
 // Endpoint para probar los logs

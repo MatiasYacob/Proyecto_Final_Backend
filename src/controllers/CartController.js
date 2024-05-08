@@ -6,7 +6,7 @@ import CustomError from "../services/errors/CustomError.js";
 import { generateProductErrorInfo } from "../services/errors/messages/user-creation-error.message.js";
 import CustomErrorMiddleware from '../services/errors/middlewares/ErrorMiddleware.js';
 import { addLogger } from "../config/logger_CUSTOM.js";
-
+import { Devlogger } from '../config/logger_CUSTOM.js';
 const manager = new CartManager();
 
 

@@ -1,7 +1,7 @@
 import { productRepository } from "../services/service.js";
 import mongoose from "mongoose";
 import { sendEmail } from "./EmailController.js";
-
+import { Devlogger } from '../config/logger_CUSTOM.js';
 export async function getAllProducts(req, res) {
     try {
         let productsToSend = await productRepository.getAll();

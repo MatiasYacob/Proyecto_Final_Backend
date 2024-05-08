@@ -1,5 +1,5 @@
 import { Product } from './models/product.model.js';
-
+import { Devlogger } from "../../../config/logger_CUSTOM.js";
 class ProductManager {
     constructor() {
         // Puede añadirse alguna lógica inicial aquí si es necesario.

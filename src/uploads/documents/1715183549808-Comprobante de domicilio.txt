@@ -1,0 +1,17 @@
+"I wake up early every morning."
+"I leave the workplace 5 minutes after it closes."
+"I'm studying English."
+"I'm learning how to swim."
+"I'm getting used to structured grammar terms."
+"I'm getting used to cold mornings."
+"I'm not used to this many hours of work."
+"I'm not used to working with others as a team."
+
+1: C heard
+2: A released
+3: C contacting//
+4: C off
+5: A person
+6: C  sold
+7: B receive
+8: A over

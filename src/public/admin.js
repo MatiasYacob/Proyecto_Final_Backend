@@ -64,7 +64,7 @@
     // Mostrar el mensaje de confirmación
     Swal.fire({
         title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
+        text: "¡Se Cambiara el Rol del Usuario!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

@@ -6,6 +6,7 @@ import * as ProductController from "../controllers/ProductController.js";
 import { ticketRepository } from "../services/service.js";
 import { addLogger } from "../config/logger_CUSTOM.js";
 import UsersController from '../controllers/UsersViewsController.js';
+import { Devlogger } from "../config/logger_CUSTOM.js";
 
 // Creación de una instancia de Router
 const router = Router();
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
 });
 
 //Vista del Panel de control de Admin
-router.get('/api/admin', passportCall('jwt'), authorization(['ADMIN','PREMIUM']), UsersController.GetAllUsers);
+router.get('/api/admin', passportCall('jwt'), authorization(['ADMIN']), UsersController.GetAllUsers);
 
 
 // Ruta para visualizar productos en tiempo real ("/realtimeproducts")
@@ -73,19 +74,6 @@ router.get("/cart", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREM
     }
 });
 
-
-
-// Ruta para cerrar sesión ("/logout")
-router.get('/logout', (req, res) => {
-    req.session.destroy(error => {
-        if (error) {
-            req.logger.error('Error al cerrar la sesión:', error);
-            res.json({ error: "Error logout", msg: "Error al cerrar la sesión" });
-        }
-        req.logger.info('Sesión cerrada correctamente');
-        res.send('Sesión cerrada correctamente!');
-    });
-});
 
 
 

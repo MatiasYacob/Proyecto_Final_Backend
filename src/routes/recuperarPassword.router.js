@@ -4,6 +4,7 @@ import User from '../services/dao/mongo/models/user.model.js';
 import { sendEmail } from '../controllers/EmailController.js';
 import { PRIVATE_KEY } from '../utils.js';
 import bcrypt from 'bcrypt';
+import { Devlogger } from "../config/logger_CUSTOM.js";
 
 const router = express.Router();
 
