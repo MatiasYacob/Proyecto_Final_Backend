@@ -104,7 +104,7 @@ describe("Testing", () => {
 
             // Guardar el ID del nuevo producto para usarlo en pruebas posteriores
             newProductID = response.body.data._id;
-            // console.log("ID del Producto " + newProductID );
+            // Devlogger.info("ID del Producto " + newProductID );
         });
 
 

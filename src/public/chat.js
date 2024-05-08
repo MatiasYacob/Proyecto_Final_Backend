@@ -63,7 +63,7 @@ socket.on("connect_error", (error) => {
 //Logica del Chat
 let user;
 let askingForName = true;
-console.log("hola");
+console.info("hola");
 function scrollToBottom() {
   const chatMessages = document.getElementById("messages");
   chatMessages.scrollTop = chatMessages.scrollHeight;

@@ -1,7 +1,7 @@
 import CustomRouter from './custom.router.js';
 import UserService from '../../services/dao/mongo/users.service.js';
 import { createHash, isValidPassword, generateJWToken } from '../../utils.js';
-
+import { Devlogger } from '../../config/logger_CUSTOM.js';
 
 export default class UsersExtendRouter extends CustomRouter {
     init() {
@@ -13,7 +13,7 @@ export default class UsersExtendRouter extends CustomRouter {
         
 
         this.get('/', ["PUBLIC"], (req, res) => {
-            console.log("TEST");
+            Devlogger.info("TEST");
             res.send("Hola coders!!")
         })
 
@@ -36,8 +36,8 @@ export default class UsersExtendRouter extends CustomRouter {
             const { email, password } = req.body;
             try {
                 const user = await userService.findByUsername(email);
-                console.log("Usuario encontrado para login:");
-                console.log(user);
+                Devlogger.info("Usuario encontrado para login:");
+                Devlogger.info(user);
                 if (!user) {
                     console.warn("User doesn't exists with username: " + email);
                     return res.status(202).send({ error: "Not found", message: "Usuario no encontrado con username: " + email });
@@ -55,11 +55,11 @@ export default class UsersExtendRouter extends CustomRouter {
                     role: user.role
                 };
                 const access_token = generateJWToken(tokenUser);
-                console.log(access_token);
+                Devlogger.info(access_token);
                 res.send({ message: "Login successful!", access_token: access_token, id: user._id });
 
             } catch (error) {
-                console.error(error);
+                Devlogger.error(error);
                 return res.status(500).send({ status: "error", error: "Error interno de la applicacion." });
             }
         })
@@ -67,8 +67,8 @@ export default class UsersExtendRouter extends CustomRouter {
 
         this.post("/register", ["PUBLIC"], async (req, res) => {
             const { first_name, last_name, email, age, password } = req.body;
-            console.log("Registrando usuario:");
-            console.log(req.body);
+            Devlogger.info("Registrando usuario:");
+            Devlogger.info(req.body);
 
             const exists = await userService.findByUsername(email);
             if (exists) {

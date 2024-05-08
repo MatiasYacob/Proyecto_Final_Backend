@@ -54,7 +54,7 @@ async function checkout() {
         }
 
         const data = await response.json();
-        console.log('Ticket Enviado:', data);
+        console.info('Ticket Enviado:', data);
 
         // Ocultar indicador de carga
         Swal.hideLoading();

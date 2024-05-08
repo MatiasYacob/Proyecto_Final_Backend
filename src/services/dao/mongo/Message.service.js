@@ -7,10 +7,10 @@ class MessageManager {
         try {
             const newMessage = new Message(messageData);
             await newMessage.save();
-            console.log('Message agregado exitosamente.');
+            Devlogger.info('Message agregado exitosamente.');
             return newMessage;
         } catch (error) {
-            console.error('Error al agregar el Message:', error);
+            Devlogger.error('Error al agregar el Message:', error);
             return null;
         }
     }
@@ -20,7 +20,7 @@ class MessageManager {
             const messages = await Message.find().sort({ timestamp: 'asc' });
             return messages;
         } catch (error) {
-            console.error('Error al obtener todos los mensajes:', error);
+            Devlogger.error('Error al obtener todos los mensajes:', error);
             return null;
         }
     }

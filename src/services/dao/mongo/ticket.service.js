@@ -34,14 +34,14 @@ class TicketManager {
             // Elimina todos los productos del carrito después de crear el ticket
             await Cart.findOneAndUpdate({ user: userId }, { $set: { products: [] } });
 
-            console.log('Ticket creado exitosamente.');
+            Devlogger.info('Ticket creado exitosamente.');
 
             // Llama al controlador de correo para enviar el ticket al usuario
             await sendTicketByEmail(user.email, ticket);
 
             return ticket;
         } catch (error) {
-            console.error('Error al crear el ticket:', error.message); // Imprime solo el mensaje del error
+            Devlogger.error('Error al crear el ticket:', error.message); // Imprime solo el mensaje del error
         
             if (error.message.includes('No hay suficiente stock')) {
                 await Cart.findOneAndUpdate({ user: userId }, { $set: { products: [] } });
@@ -101,7 +101,7 @@ class TicketManager {
 
             return tickets;
         } catch (error) {
-            console.error("Error al obtener los tickets:", error);
+            Devlogger.error("Error al obtener los tickets:", error);
             throw error;
         }
     }

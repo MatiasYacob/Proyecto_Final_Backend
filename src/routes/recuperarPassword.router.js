@@ -23,11 +23,11 @@ router.post('/', async (req, res) => {
         // Verificar si el usuario existe
         const user = await User.findOne({ email });
         if (!user) {
-            console.log('El usuario con el correo electrónico', email, 'no existe en la base de datos');
+            Devlogger.info('El usuario con el correo electrónico', email, 'no existe en la base de datos');
             return res.status(404).json({ error: 'El usuario no existe' });
         }
 
-        console.log('El usuario con el correo electrónico', email, 'existe en la base de datos');
+        Devlogger.info('El usuario con el correo electrónico', email, 'existe en la base de datos');
 
         // Generar token temporal con JWT
         const token = jwt.sign({ email }, PRIVATE_KEY, { expiresIn: '1h' });
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 
         res.status(200).json({ message: 'Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña' });
     } catch (error) {
-        console.error('Error al procesar la solicitud de restablecimiento de contraseña:', error);
+        Devlogger.error('Error al procesar la solicitud de restablecimiento de contraseña:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
@@ -61,7 +61,7 @@ router.get('/reset', async (req, res) => {
         jwt.verify(token, PRIVATE_KEY, (err, decoded) => {
             if (err) {
                 // Si el token no es válido, redireccionar a una página de error o mostrar un mensaje de error
-                console.error('Error al verificar el token:', err);
+                Devlogger.error('Error al verificar el token:', err);
                 return res.status(400).send('El token no es válido');
             } else {
                 // Si el token es válido, renderizar la vista de restablecimiento de contraseña
@@ -69,7 +69,7 @@ router.get('/reset', async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Error al renderizar la vista de restablecimiento de contraseña:', error);
+        Devlogger.error('Error al renderizar la vista de restablecimiento de contraseña:', error);
         res.status(500).send('Error interno del servidor');
     }
 });
@@ -80,32 +80,32 @@ router.post('/reset-password', async (req, res) => {
 
         // Verificar si el token está presente y es una cadena
         if (!token || typeof token !== 'string') {
-            console.error('Token inválido');
+            Devlogger.error('Token inválido');
             return res.status(400).json({ error: 'Token inválido' });
         }
 
         // Verificar si la nueva contraseña está presente y es una cadena
         if (!newPassword || typeof newPassword !== 'string') {
-            console.error('Nueva contraseña inválida');
+            Devlogger.error('Nueva contraseña inválida');
             return res.status(400).json({ error: 'Nueva contraseña inválida' });
         }
 
         try {
             const decoded = jwt.verify(token, PRIVATE_KEY); // Decodificar el token para obtener el correo electrónico
-            console.log('Token decodificado:', decoded);
+            Devlogger.info('Token decodificado:', decoded);
             const { email } = decoded;
 
             // Buscar al usuario por su correo electrónico
             const user = await User.findOne({ email });
             if (!user) {
-                console.error('Usuario no encontrado');
+                Devlogger.error('Usuario no encontrado');
                 return res.status(404).json({ error: 'Usuario no encontrado' });
             }
 
             // Verificar si la nueva contraseña es igual a la anterior
             const isPasswordMatch = await bcrypt.compare(newPassword, user.password);
             if (isPasswordMatch) {
-                console.error('La nueva contraseña no puede ser igual a la anterior');
+                Devlogger.error('La nueva contraseña no puede ser igual a la anterior');
                 return res.status(400).json({ error: 'La nueva contraseña no puede ser igual a la anterior' });
             }
 
@@ -114,16 +114,16 @@ router.post('/reset-password', async (req, res) => {
 
             // Actualizar la contraseña en la base de datos
             await User.updateOne({ email }, { password: hashedPassword });
-            console.log('Contraseña actualizada exitosamente');
+            Devlogger.info('Contraseña actualizada exitosamente');
 
             // Responder con un mensaje de éxito
             return res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
         } catch (error) {
-            console.error('Error al restablecer la contraseña:', error);
+            Devlogger.error('Error al restablecer la contraseña:', error);
             res.status(500).json({ error: 'Error interno del servidor' });
         }
     } catch (error) {
-        console.error('Error al restablecer la contraseña:', error);
+        Devlogger.error('Error al restablecer la contraseña:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });

@@ -1,7 +1,7 @@
 
     async function AddProductToCart(productId) {
     try {
-        console.log(productId);
+        
 
         const response = await fetch(`api/carts/${productId}`, {
             method: 'POST',
@@ -15,7 +15,7 @@
         }
 
         const data = await response.json();
-        console.log('Producto agregado al carrito:', data);
+        console.info('Producto agregado al carrito:', data);
 
         // Show success toast using SweetAlert
            await Swal.fire({

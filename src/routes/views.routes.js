@@ -19,12 +19,8 @@ router.get("/", (req, res) => {
     res.render("home.hbs");
 });
 
-
-router.get('/api/admin', UsersController.GetAllUsers);
-
-
-
-
+//Vista del Panel de control de Admin
+router.get('/api/admin', passportCall('jwt'), authorization(['ADMIN','PREMIUM']), UsersController.GetAllUsers);
 
 
 // Ruta para visualizar productos en tiempo real ("/realtimeproducts")
@@ -68,7 +64,7 @@ router.get("/chat", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREM
 // Ruta para visualizar productos en el carrito ("/cart")
 router.get("/cart", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREMIUM']), async (req, res) => {
     try {
-        console.log(req.user);
+        Devlogger.info(req.user);
         await CartController.getProductsInCartController(req, res);
         req.logger.info("Ingresando a El Carrito")
     } catch (error) {
@@ -77,18 +73,7 @@ router.get("/cart", passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREM
     }
 });
 
-// Ruta para manejar sesiones ("/session")
-router.get('/session', (req, res) => {
-    if (req.session.counter) {
-        req.session.counter++;
-        req.logger.info(`Visita número ${req.session.counter}`);
-        res.send(`Se ha visitado este sitio: ${req.session.counter} veces.`);
-    } else {
-        req.session.counter = 1;
-        req.logger.info('Primera visita al sitio');
-        res.send('Bienvenido!!');
-    }
-});
+
 
 // Ruta para cerrar sesión ("/logout")
 router.get('/logout', (req, res) => {
@@ -101,6 +86,8 @@ router.get('/logout', (req, res) => {
         res.send('Sesión cerrada correctamente!');
     });
 });
+
+
 
 // Ruta para visualizar tickets ("/tickets")
 router.get('/tickets', passportCall('jwt'), authorization(['ADMIN', 'USUARIO','PREMIUM']), async (req, res) => {

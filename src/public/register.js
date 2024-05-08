@@ -16,7 +16,7 @@ form.addEventListener('submit',e=>{
             'Content-Type': 'application/json'
         }
     }).then(result =>{
-        console.log(result.status)
+        console.info(result.status)
         if(result.status === 201){
             window.location.replace('/api/users/login')
         }

@@ -3,7 +3,7 @@ import { authToken, passportCall, authorization, uploader } from '../utils.js';
 import UsersController from '../controllers/UsersViewsController.js';
 import { addLogger } from "../config/logger_CUSTOM.js";
 import { userRepository } from '../services/service.js';
-
+import { Devlogger } from '../config/logger_CUSTOM.js';
 
 const router = Router();
 
@@ -29,7 +29,7 @@ router.post('/:uid/documents', uploader.array('documents'), async (req, res) => 
 
         res.status(200).json({ message: "Documentos subidos correctamente" });
     } catch (error) {
-        console.error("Error al subir documentos:", error);
+        Devlogger.error("Error al subir documentos:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 });
@@ -50,6 +50,8 @@ router.put('/premium/:userId', (req, res) => {
     req.logger.info('Intercambiando Roles del usuario con ID: ' + req.params.userId);
     UsersController.changeUserRoleDocs(req, res);
 });
+
+
 
 // Renderiza la vista de inicio de sesión
 router.get("/login", (req, res) => {

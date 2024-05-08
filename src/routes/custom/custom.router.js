@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { PRIVATE_KEY } from "../../utils.js";
-
+import { Devlogger } from "../../config/logger_CUSTOM.js";
 export default class CustomRouter {
     constructor() {
         this.router = Router();
@@ -15,12 +15,12 @@ export default class CustomRouter {
     init() { }
 
     get(path, policies, ...callbacks) {
-        console.log("Entrando por GET a custom router con Path: " + path);
+        Devlogger.info("Entrando por GET a custom router con Path: " + path);
         
         // Asegurarse de que policies sea siempre un array
         const policiesArray = Array.isArray(policies) ? policies : [policies];
         
-        console.log(policiesArray);
+        Devlogger.info(policiesArray);
 
         this.router.get(
             path,
@@ -65,21 +65,21 @@ export default class CustomRouter {
     }
 
     handlePolicies = (policies) => (req, res, next) => {
-        console.log("Politicas a evaluar:");
-        console.log(policies);
+        Devlogger.info("Politicas a evaluar:");
+        Devlogger.info(policies);
 
         if (policies.includes("PUBLIC")) return next();
 
         const authHeader = req.headers.authorization;
-        console.log("Token present in header auth:");
-        console.log(authHeader);
+        Devlogger.info("Token present in header auth:");
+        Devlogger.info(authHeader);
 
         const authToken = authHeader ? authHeader.split(' ')[1] : null;
 
         if (!authToken) {
             return res.status(401).send({ error: "User not authenticated or missing token." });
         }
-        console.log(authToken);
+        Devlogger.info(authToken);
         jwt.verify(authToken, PRIVATE_KEY, (error, credential) => {
             if (error) return res.status(403).send({ error: "Token invalid, Unauthorized!" });
 
@@ -90,7 +90,7 @@ export default class CustomRouter {
             }
 
             req.user = user;
-            console.log(req.user);
+            Devlogger.info(req.user);
             next();
         });
     };
@@ -109,7 +109,7 @@ export default class CustomRouter {
             try {
                 await callback.apply(this, item);
             } catch (error) {
-                console.error(error);
+                Devlogger.error(error);
                 item[1].status(500).send(error);
             }
         });

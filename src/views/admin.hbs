@@ -36,30 +36,7 @@
 <h1 class="display-4">Panel de Administrador</h1>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/realtimeproducts">Ir a Carga de productos</a>
-            </li>
-
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/chat">Ir al Chat</a>
-            </li>
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/cart">Ir al carrito</a>
-            </li>
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/products">Ir a Products</a>
-            </li>
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/apidocs">Documentacion</a>
-            </li>
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/mockingproducts">MockingProducts</a>
-            </li>
-            <li class="page-item mt-3 mr-2 ml-2">
-                <a class="btn btn-primary" href="/loggerTest">loggerTest</a>
-            </li>
-
-
+            <!-- Botones de navegación -->
         </ul>
     </nav>
     <div class="container">
@@ -89,23 +66,25 @@
                             <i class="fas fa-info-circle"></i>
                         </button>
                     </td>
-                   
-
                     <td>
-                         
-                        <button class="btn btn-warning user-role-button btn-block" data-user-email="{{this.email}}">Cambiar Rol</button>
-                        <button class="btn btn-danger user-delete-button btn-block" data-user-email="{{this.email}}">Borrar Usuario</button>
+                        <!-- Condición para mostrar el botón de cambio de rol solo si hay documentos -->
                         {{#if this.documents.length}}
-                        <button class="btn btn-primary user-docs-button btn-block" type="button" data-toggle="collapse" data-target="#user-docs-{{@index}}" aria-expanded="false" aria-controls="user-docs-{{@index}}">
-                            Documentos
-                        </button>
-                        <div class="collapse" id="user-docs-{{@index}}">
-                            <ul>
-                                {{#each this.documents}}
-                                <li>{{this.name}}</li>
-                                {{/each}}
-                            </ul>
-                        </div>
+                            <button class="btn btn-warning user-role-button btn-block" data-user-email="{{this.email}}">Cambiar Rol</button>
+                        {{/if}}
+                        {{#unless (eq this.role "admin")}}
+                            <button class="btn btn-danger user-delete-button btn-block" data-user-email="{{this.email}}">Borrar Usuario</button>
+                        {{/unless}}
+                        {{#if this.documents.length}}
+                            <button class="btn btn-primary user-docs-button btn-block" type="button" data-toggle="collapse" data-target="#user-docs-{{@index}}" aria-expanded="false" aria-controls="user-docs-{{@index}}">
+                                Documentos
+                            </button>
+                            <div class="collapse" id="user-docs-{{@index}}">
+                                <ul>
+                                    {{#each this.documents}}
+                                    <li>{{this.name}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>
                         {{/if}}
                     </td>
                 </tr>
@@ -120,189 +99,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Agrega FontAwesome para los íconos -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script>
- // Secuencia de teclas dese
-
-
-
-        // Inicializar tooltips de Bootstrap
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-
-        // Agregar evento para el botón de borrar usuario
-        $('.user-delete-button').on('click', function () {
-            const userEmail = $(this).data('user-email');
-            // Mostrar el mensaje de confirmación
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        // Realizar la solicitud de eliminación si se confirma
-                        const response = await fetch(`/api/admin/${userEmail}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        });
-                        if (response.ok) {
-                            // Si la eliminación fue exitosa, mostrar un mensaje de éxito
-                            Swal.fire(
-                                '¡Eliminado!',
-                                'El usuario ha sido eliminado.',
-                                'success'
-                            ).then(() => {
-                                // Recargar la página para reflejar los cambios
-                                window.location.reload();
-                            });
-                        } else {
-                            // Si hay un error en la eliminación, mostrar un mensaje de error
-                            Swal.fire(
-                                'Error',
-                                'No se pudo eliminar el usuario.',
-                                'error'
-                            );
-                        }
-                    } catch (error) {
-                        // Si hay un error en la solicitud, mostrar un mensaje de error
-                        Swal.fire(
-                            'Error',
-                            'No se pudo eliminar el usuario.',
-                            'error'
-                        );
-                    }
-                }
-            });
-        });
-        //Cambiar roll de usuario
-        $('.user-role-button').on('click', function () {
-    const userEmail = $(this).data('user-email');
-    // Mostrar el mensaje de confirmación
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, cambiar rol'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                // Realizar la solicitud para cambiar el rol si se confirma
-                const response = await fetch(`/api/admin/${userEmail}`, {
-                    method: 'POST', // Utiliza el método POST para cambiar el rol
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (response.ok) {
-                    // Si la operación fue exitosa, mostrar un mensaje de éxito
-                    Swal.fire(
-                        '¡Rol Cambiado!',
-                        'El rol del usuario ha sido cambiado.',
-                        'success'
-                    ).then(() => {
-                        // Recargar la página para reflejar los cambios
-                        window.location.reload();
-                    });
-                } else {
-                    // Si hay un error, mostrar un mensaje de error
-                    Swal.fire(
-                        'Error',
-                        'No se pudo cambiar el rol del usuario.',
-                        'error'
-                    );
-                }
-            } catch (error) {
-                // Si hay un error en la solicitud, mostrar un mensaje de error
-                Swal.fire(
-                    'Error',
-                    'No se pudo cambiar el rol del usuario.',
-                    'error'
-                );
-            }
-        }
-    });
-});
-
-
-
-
-
-        //borrar usuarios inactivos 
-        function borrarUsuariosInactivos() {
-    // Mostrar el mensaje de confirmación
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar inactivos'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            // Mostrar el modal de carga
-            Swal.fire({
-                title: 'Cargando...',
-                text: 'Por favor, espera mientras se eliminan los usuarios inactivos.',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            try {
-                // Realizar la solicitud DELETE para eliminar usuarios inactivos
-                const response = await fetch('/api/admin/inactive', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                // Ocultar el modal de carga
-                Swal.close();
-
-                if (response.ok) {
-                    // Si la eliminación fue exitosa, mostrar un mensaje de éxito
-                    Swal.fire(
-                        '¡Eliminados!',
-                        'Los usuarios inactivos han sido eliminados.',
-                        'success'
-                    ).then(() => {
-                        // Recargar la página para reflejar los cambios
-                        window.location.reload();
-                    });
-                } else {
-                    // Si hay un error en la eliminación, mostrar un mensaje de error
-                    Swal.fire(
-                        'Error',
-                        'No se pudieron eliminar los usuarios inactivos.',
-                        'error'
-                    );
-                }
-            } catch (error) {
-                // Si hay un error en la solicitud, mostrar un mensaje de error
-                Swal.fire(
-                    'Error',
-                    'No se pudieron eliminar los usuarios inactivos.',
-                    'error'
-                );
-            }
-        }
-    });
-}
-
-    </script>
+    <script src="/admin.js" > </script>
 </body>
 </html>

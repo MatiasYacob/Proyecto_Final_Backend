@@ -20,14 +20,14 @@ SessionsController.register = async (req, res) => {
         if (result.success) {
             // Si el registro es exitoso, puedes generar un token JWT aquí si es necesario
             const access_token = generateJWToken(result.user);
-            console.log(access_token);
+            Devlogger.info(access_token);
 
             res.status(201).json({ success: true, message: "Registro exitoso", user: result.user, access_token });
         } else {
             res.status(400).json({ success: false, message: result.message });
         }
     } catch (error) {
-        console.error("Error en el servidor:", error);
+        Devlogger.error("Error en el servidor:", error);
         res.status(500).json({ success: false, message: "Error en el servidor", error });
     }
 };
@@ -53,13 +53,13 @@ SessionsController.logout = async (req, res) => {
             
             
             if (err) {
-                console.error("Error al desloguear:", err);
+                Devlogger.error("Error al desloguear:", err);
                 return res.status(500).send({ status: "error", message: "Error al desloguear" });
             }
             res.send({ status: "success", message: "Sesión cerrada exitosamente" });
         });
     } catch (error) {
-        console.error("Error al desloguear:", error);
+        Devlogger.error("Error al desloguear:", error);
         res.status(500).send({ status: "error", message: "Error al desloguear" });
     }
 };
@@ -79,7 +79,7 @@ SessionsController.failLogin = (req, res) => {
 SessionsController.getToken = (req, res) => {
     const user = req.user;
     const access_token = generateJWToken(user);
-    console.log(access_token);
+    Devlogger.info(access_token);
     res.send({ access_token: access_token });
 };
 

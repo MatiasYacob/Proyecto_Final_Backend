@@ -7,6 +7,7 @@ import { passportCall, authorization } from "../utils.js";
 
 const router = Router();
 
+//Ruta para borrar Usuarios inactivos (2Dias)
 router.delete('/inactive', passportCall('jwt'), authorization(['ADMIN']), async (req, res) =>{
     try {
         await UsersController.DeleteInactiveUsers(req, res);
@@ -16,9 +17,6 @@ router.delete('/inactive', passportCall('jwt'), authorization(['ADMIN']), async 
         res.status(500).json({ error: "Error interno al eliminar usuarios" });
     }
 });
-
-
-
 
 
 //Ruta para borrar un usuario (Mail)

@@ -13,7 +13,7 @@ class ProductManager {
             
             return newProduct;
         } catch (error) {
-            console.error('Error al agregar el producto:', error);
+            Devlogger.error('Error al agregar el producto:', error);
             return null;
         }
     }
@@ -23,13 +23,13 @@ class ProductManager {
         try {
             const product = await Product.findByIdAndUpdate(_id, updatedProduct, { new: true });
             if (!product) {
-                console.log('El producto no existe.');
+                Devlogger.info('El producto no existe.');
                 return null;
             }
-            console.log('Producto actualizado exitosamente.');
+            Devlogger.info('Producto actualizado exitosamente.');
             return product;
         } catch (error) {
-            console.error('Error al actualizar el producto:', error);
+            Devlogger.error('Error al actualizar el producto:', error);
             return null;
         }
     }
@@ -39,13 +39,13 @@ class ProductManager {
         try {
             const product = await Product.findByIdAndDelete(_id);
             if (!product) {
-                console.log('El producto no existe.');
+                Devlogger.info('El producto no existe.');
                 return null;
             }
             
             return product;
         } catch (error) {
-            console.error('Error al eliminar el producto:', error);
+            Devlogger.error('Error al eliminar el producto:', error);
             return null;
         }
     }
@@ -56,7 +56,7 @@ class ProductManager {
             const products = await Product.find();
             return products;
         } catch (error) {
-            console.error('Error al obtener los productos:', error);
+            Devlogger.error('Error al obtener los productos:', error);
             return [];
         }
     }
@@ -69,7 +69,7 @@ class ProductManager {
             
             return product || null;
         } catch (error) {
-            console.error('Error al obtener el producto por ID:', error);
+            Devlogger.error('Error al obtener el producto por ID:', error);
             return null;
         }
     }

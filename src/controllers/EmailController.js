@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import config from '../config/config.js';
+import { Devlogger } from '../config/logger_CUSTOM.js';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -31,9 +32,9 @@ export const sendTicketByEmail = async (userEmail, ticketDetails) => {
 
     try {
         const result = await transporter.sendMail(mailOptions);
-        console.log('Ticket enviado por correo exitosamente:', result);
+        Devlogger.info('Ticket enviado por correo exitosamente:', result);
     } catch (error) {
-        console.error('Error al enviar el ticket por correo:', error);
+       Devlogger.error('Error al enviar el ticket por correo:', error);
         throw error;
     }
 };
@@ -47,9 +48,9 @@ export const sendEmail = async (to, subject, html) => {
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log("Correo electrónico enviado:", info);
+        Devlogger.info("Correo electrónico enviado:", info);
     } catch (error) {
-        console.error("Error al enviar el correo electrónico:", error);
+        Devlogger.error("Error al enviar el correo electrónico:", error);
         throw error;
     }
 };

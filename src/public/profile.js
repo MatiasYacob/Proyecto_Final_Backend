@@ -60,7 +60,7 @@ function uploadDocuments() {
             return response.json();
         })
         .then(data => {
-            console.log('Documentos subidos correctamente:', data);
+            console.info('Documentos subidos correctamente:', data);
             Swal.fire({
                 icon: 'success',
                 title: 'Documentos subidos correctamente',
@@ -123,7 +123,7 @@ function cambiarRol(id) {
                 if (userRoleElement) {
                     userRoleElement.innerHTML = `<strong>Rol:</strong> ${data.user.role}`;
                 }
-                console.log('Rol del usuario cambiado correctamente:', data);
+                console.info('Rol del usuario cambiado correctamente:', data);
 
                 // Mostrar un mensaje de éxito y redirigir al usuario a la página de inicio de sesión
                 Swal.fire({
@@ -182,7 +182,7 @@ var teclasPresionadas = [];
 function handleKeyPress(event) {
     // Agregar la tecla presionada a la lista de teclas
     teclasPresionadas.push(event.code);
-    console.log('Secuencia de teclas: ', teclasPresionadas);
+    console.info('Secuencia de teclas: ', teclasPresionadas);
 
     // Limitar la longitud del array de teclas presionadas
     if (teclasPresionadas.length > secuenciaDeseada.length) {

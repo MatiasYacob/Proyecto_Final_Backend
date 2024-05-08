@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { Devlogger } from "./config/logger_CUSTOM";
 const program = new Command();
 
 program
@@ -12,7 +13,7 @@ program
 
 program.parse();
 
-console.log("Options:", program.opts());
+Devlogger.info("Options:", program.opts());
 
 
 

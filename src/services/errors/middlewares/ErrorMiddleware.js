@@ -3,13 +3,13 @@ import CustomError from '../CustomError.js';
 import  EErrors  from '../errors-enum.js';
 
 export default (error, req, res, next) => {
-    console.error('Error detectado entrando al Error Handler:');
-    console.error(`Name: ${error.name}`);
-    console.error(`Code: ${error.errorCode}`);
-    console.error(`Message: ${error.message}`);
+    Devlogger.error('Error detectado entrando al Error Handler:');
+    Devlogger.error(`Name: ${error.name}`);
+    Devlogger.error(`Code: ${error.errorCode}`);
+    Devlogger.error(`Message: ${error.message}`);
 
     if (error.additionalInfo) {
-        console.error('Additional Info:', error.additionalInfo);
+        Devlogger.error('Additional Info:', error.additionalInfo);
     }
 
 

@@ -4,12 +4,16 @@ import userModel from "../services/dao/mongo/models/user.model.js";
 import { createHash } from "../utils.js";
 import jwtStrategy from 'passport-jwt';
 import { PRIVATE_KEY } from "../utils.js";
+import config from "./config.js";
+
 
 const localStrategy = passportLocal.Strategy;
 const JwtStrategy = jwtStrategy.Strategy;
 const ExtractJWT = jwtStrategy.ExtractJwt;
-
+const port = config.port
 const initializePassport = () => {
+
+   
     // Estrategia para obtener Token JWT por Cookie:
     passport.use('jwt', new JwtStrategy(
         {
@@ -37,7 +41,7 @@ const initializePassport = () => {
             if (req) {
                 req.logger.error(`Error deserializando el usuario: ${error}`);
             } else {
-                console.error(`Error deserializando el usuario: ${error}`);
+                Devlogger.error(`Error deserializando el usuario: ${error}`);
             }
         }
     });
@@ -84,7 +88,7 @@ passport.use('register', new localStrategy(
             if (req) {
                 req.logger.error(`Error registrando usuario: ${error}`);
             } else {
-                console.error(`Error registrando usuario: ${error}`);
+                Devlogger.error(`Error registrando usuario: ${error}`);
             }
             return done(`Error registrando usuario: ${error}`);
         }

@@ -66,7 +66,7 @@ UsersController.uploadDoc = async (req, res) =>{
         // Enviar la respuesta con el usuario actualizado
         res.status(200).json({ message: "ok", user });
     } catch (error) {
-        console.error("Error al cambiar el rol del usuario:", error);
+        Devlogger.error("Error al cambiar el rol del usuario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 
@@ -127,7 +127,7 @@ UsersController.changeUserRoleMail = async (req, res) => {
         // Enviar la respuesta con el usuario actualizado
         res.status(200).json({ message: "Rol de usuario actualizado correctamente", user });
     } catch (error) {
-        console.error("Error al cambiar el rol del usuario:", error);
+        Devlogger.error("Error al cambiar el rol del usuario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
@@ -158,7 +158,7 @@ UsersController.changeUserRole = async (req, res) => {
         res.status(200).json({ message: "Rol de usuario actualizado correctamente", user });
        
     } catch (error) {
-        console.error("Error al cambiar el rol del usuario:", error);
+        Devlogger.error("Error al cambiar el rol del usuario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
@@ -203,7 +203,7 @@ UsersController.changeUserRoleDocs = async (req, res) => {
         // Enviar la respuesta con el usuario actualizado
         res.status(200).json({ message: "Rol de usuario actualizado correctamente", user });
     } catch (error) {
-        console.error("Error al cambiar el rol del usuario:", error);
+        Devlogger.error("Error al cambiar el rol del usuario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
@@ -224,7 +224,7 @@ UsersController.getUserById = async (req, res) => {
 
         res.json(user);
     } catch (error) {
-        console.error("Error consultando el usuario con ID: " + userId);
+        Devlogger.error("Error consultando el usuario con ID: " + userId);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };

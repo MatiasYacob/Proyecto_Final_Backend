@@ -1,22 +1,31 @@
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item mt-3 mr-2 ml-2">
-      <a class="btn btn-primary" href="/realtimeproducts">Ir a Carga de productos</a>
-    </li>
-    <li class="page-item mt-3 mr-2 ml-2">
-      <a class="btn btn-primary" href="/chat">Ir al Chat</a>
-    </li>
-    <li class="page-item mt-3 mr-2 ml-2">
-      <a class="btn btn-primary" href="/cart">Ir al carrito</a>
-    </li>
-    <li class="page-item mt-3 mr-2 ml-2">
-      <a class="btn btn-primary" href="/products">Ir a Products</a>
-    </li>
-    <li class="page-item mt-3 mr-2 ml-2">
-      <a class="btn btn-primary" href="/api/users/register">Regístrate</a>
-    </li>
-    <li class="page-item mt-3 ml-2">
-      <a class="btn btn-primary" href="/api/users/login">Inicia sesión</a>
-    </li>
-  </ul>
-</nav>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    .titulo-bienvenido {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+     .btn:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<div class="container text-center mt-5">
+   <h1 class="titulo-bienvenido">Bienvenido</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg mb-4">
+                <div class="card-body">
+                    <a class="btn btn-lg btn-primary btn-block rounded-pill py-3" href="/api/users/login">Inicia sesión</a>
+                    <a class="btn btn-lg btn-primary btn-block rounded-pill py-3 " href="/api/users/register">Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

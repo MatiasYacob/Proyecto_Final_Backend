@@ -6,7 +6,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
 
     const email = formData.get('email'); // Obtener el valor del campo de entrada de correo electrónico
 
-    console.log('Correo electrónico ingresado:', email); // Mostrar el correo electrónico en la consola
+    console.info('Correo electrónico ingresado:', email); // Mostrar el correo electrónico en la consola
     Swal.showLoading();
     try {
         // Mostrar ventana de carga mientras se espera la respuesta del servidor
@@ -22,7 +22,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data); // Hacer algo con la respuesta del servidor (opcional)
+            console.info(data); // Hacer algo con la respuesta del servidor (opcional)
             // Mostrar SweetAlert2 de éxito
             await Swal.fire({
                 icon: 'success',

@@ -1,3 +1,6 @@
+
+
+
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', e => {
@@ -15,8 +18,6 @@ form.addEventListener('submit', e => {
         if (result.status === 200) {
             result.json()
                 .then(json => {
-                    console.log("Cookies generadas:");
-                    console.log(document.cookie);
                     Swal.fire({
                         icon: 'success',
                         title: 'Login exitoso!',
@@ -28,7 +29,7 @@ form.addEventListener('submit', e => {
                     });
                 });
         } else if (result.status === 401) {
-            console.log(result);
+            
             Swal.fire({
                 icon: 'error',
                 title: 'Error de inicio de sesión',
