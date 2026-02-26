@@ -7,7 +7,7 @@ program
     .option('-p <port>','Puerto del Servidor', 8080)
     .option('--mode <mode>', 'Mode de trabajo', 'develop')
 
-    .requiredOption('-u <user>', 'Usuario que va a utiliuzar el aplicativo', 'No se ha declarado un usuario.')
+    .option('-u <user>', 'Usuario que va a utilizar el aplicativo')
 
 
 

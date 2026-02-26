@@ -39,7 +39,7 @@ import path from 'path';
 // Configuración de Express
 
 const app = express();
-const port = config.port || 8080;
+const port = process.env.PORT || config.port || 8080;
 
 // URL de la base de datos de mongo
 const MONGOURL = config.mongoUrl;
@@ -70,7 +70,7 @@ app.use(
       mongoOptions: {  },
       ttl: 10 * 60, // tiempo de vida de la sesión en segundos (10 minutos en este caso)
     }),
-    secret: 'tu_secreto_aqui',
+    secret: process.env.SESSION_SECRET || 'tu_secreto_aqui',
     resave: true,
     saveUninitialized: true,
   })
